@@ -1,0 +1,109 @@
+<svg width="240" height="96" viewBox="0 0 240 96" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 3D Blue gradient for W -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00BFFF;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#0099FF;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#0080FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#004EFF;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 3D Pink gradient for M -->
+    <linearGradient id="pinkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF69B4;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#FF4D9F;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#FF3EA5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0007A;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 3D Yellow gradient for X -->
+    <linearGradient id="yellowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE135;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#FFC700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Sharp 3D Shadow filter -->
+    <filter id="drop-shadow-3d" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="0"/>
+      <feOffset dx="4" dy="4" result="offset"/>
+      <feFlood flood-color="#111111" flood-opacity="1"/>
+      <feComposite in2="offset" operator="in"/>
+      <feMerge> 
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+    
+    <!-- Retro grid pattern -->
+    <pattern id="retroGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#00FFFF" stroke-width="0.5" opacity="0.2"/>
+    </pattern>
+  </defs>
+  
+  <!-- Background with retro grid -->
+  <rect width="240" height="96" fill="url(#retroGrid)"/>
+  
+  <!-- Letter W - 3D Blue (Larger) -->
+  <g filter="url(#drop-shadow-3d)">
+    <path d="M 12 18 L 24 66 L 36 42 L 48 66 L 60 18 L 54 18 L 44.4 54 L 36 33.6 L 27.6 54 L 18 18 Z" 
+          fill="url(#blueGradient)" 
+          stroke="#111111" 
+          stroke-width="3"/>
+    <!-- 3D depth effect -->
+    <path d="M 60 18 L 66 12 L 54 12 L 42 60 L 48 66 Z" 
+          fill="#001A66" 
+          stroke="#111111" 
+          stroke-width="2"/>
+  </g>
+  
+  <!-- Letter M - 3D Pink (Larger) -->  
+  <g filter="url(#drop-shadow-3d)">
+    <path d="M 78 18 L 78 66 L 84 66 L 84 30 L 102 48 L 120 30 L 120 66 L 126 66 L 126 18 L 114 18 L 102 36 L 90 18 Z" 
+          fill="url(#pinkGradient)" 
+          stroke="#111111" 
+          stroke-width="3"/>
+    <!-- 3D depth effect -->
+    <path d="M 126 18 L 132 12 L 120 12 L 120 60 L 126 66 Z" 
+          fill="#990047" 
+          stroke="#111111" 
+          stroke-width="2"/>
+  </g>
+  
+  <!-- Letter X - 3D Yellow (Larger) -->
+  <g filter="url(#drop-shadow-3d)">
+    <path d="M 144 18 L 168 42 L 192 18 L 204 18 L 174 48 L 204 66 L 192 66 L 168 48 L 144 66 L 132 66 L 162 48 L 132 18 Z" 
+          fill="url(#yellowGradient)" 
+          stroke="#111111" 
+          stroke-width="3"/>
+    <!-- 3D depth effect -->
+    <path d="M 204 18 L 210 12 L 198 12 L 174 42 L 180 48 Z" 
+          fill="#B8730C" 
+          stroke="#111111" 
+          stroke-width="2"/>
+  </g>
+  
+  <!-- Retro "SERVICES" text (Larger) -->
+  <text x="120" y="84" text-anchor="middle" 
+        font-family="Arial Black, sans-serif" 
+        font-size="10" 
+        font-weight="900" 
+        fill="#FFFFFF" 
+        stroke="#111111" 
+        stroke-width="1"
+        letter-spacing="3px">SERVICES</text>
+  
+  <!-- Decorative retro elements (Larger) -->
+  <rect x="6" y="12" width="10" height="10" fill="#00FFFF" stroke="#111111" stroke-width="2" transform="rotate(45 11 17)"/>
+  <rect x="224" y="12" width="10" height="10" fill="#FFC700" stroke="#111111" stroke-width="2" transform="rotate(45 229 17)"/>
+  
+  <!-- Glowing accent lines -->
+  <line x1="12" y1="6" x2="204" y2="6" stroke="#FFC700" stroke-width="3" opacity="0.9"/>
+  <line x1="12" y1="90" x2="204" y2="90" stroke="#FF3EA5" stroke-width="3" opacity="0.9"/>
+  
+  <!-- Extra glow effects for 3D depth -->
+  <circle cx="30" cy="30" r="2" fill="#00FFFF" opacity="0.7"/>
+  <circle cx="120" cy="30" r="2" fill="#FF3EA5" opacity="0.7"/>
+  <circle cx="210" cy="30" r="2" fill="#FFC700" opacity="0.7"/>
+</svg>

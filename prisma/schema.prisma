@@ -1,0 +1,408 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                   String              @id @default(cuid())
+  name                 String?
+  email                String              @unique
+  emailVerified        DateTime?
+  password             String?             // For credentials auth
+  image                String?
+  role                 UserRole            @default(CLIENT)
+  isActive             Boolean             @default(false)  // Account active status
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  lastActiveAt         DateTime?           // Track last activity for online status
+  // Email Preferences
+  emailNotifications   Boolean             @default(true)
+  emailInvoices        Boolean             @default(true)
+  emailProjectUpdates  Boolean             @default(true)
+  emailChatMessages    Boolean             @default(true)
+  emailMarketing       Boolean             @default(false)
+  unsubscribeToken     String?             @unique @default(cuid())
+  // Relations
+  accounts             Account[]
+  receivedMessages     ChatMessage[]       @relation("MessageReceiver")
+  sentMessages         ChatMessage[]       @relation("MessageSender")
+  invoices             Invoice[]           @relation("ClientInvoices")
+  projects             Project[]
+  sessions             Session[]
+  emailLogs            EmailLog[]
+  emailVerifications   EmailVerification[]
+  portfolioImages      PortfolioImage[]
+  activityLogs         ActivityLog[]
+  messageReadBy        MessageReadBy[]
+  userTyping           UserTyping[]
+  notifications        Notification[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  token   String   @unique
+  email   String
+  expires DateTime
+  used    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model EmailVerification {
+  id        String   @id @default(cuid())
+  userId    String
+  email     String
+  code      String   // 6-digit verification code
+  expires   DateTime
+  attempts  Int      @default(0) // Track failed verification attempts
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([code])
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  progress    Int           @default(0)
+  status      ProjectStatus @default(PLANNING)
+  clientId    String
+  deadline    DateTime?     // Project deadline
+  demoUrl     String?       // URL for project demo/preview
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  messages    ChatMessage[]
+  invoices    Invoice[]
+  milestones  Milestone[]
+  activityLogs ActivityLog[]
+  userTyping  UserTyping[]
+  client      User          @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+model Milestone {
+  id        String          @id @default(cuid())
+  title     String
+  status    MilestoneStatus @default(PENDING)
+  projectId String
+  order     Int             @default(0)
+  deadline  DateTime?       // Milestone deadline
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  project   Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model PortfolioItem {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  imageUrl    String
+  liveUrl     String?
+  category    String   @default("Web")
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PortfolioImage {
+  id         String   @id @default(cuid())
+  userId     String
+  url        String
+  key        String   @unique // Storage key for deletion
+  name       String   // Display name
+  fileName   String   // Original file name
+  size       Int?     // File size in bytes
+  type       String?  // MIME type
+  order      Int      @default(0) // For custom ordering
+  uploadedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([uploadedAt])
+}
+
+model ChatMessage {
+  id           String          @id @default(cuid())
+  content      String
+  senderId     String
+  receiverId   String?
+  projectId    String
+  isEdited     Boolean         @default(false)
+  editedAt     DateTime?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  project      Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  receiver     User?           @relation("MessageReceiver", fields: [receiverId], references: [id])
+  sender       User            @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  readBy       MessageReadBy[]
+  attachments  MessageAttachment[]
+
+  @@index([projectId])
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([createdAt])
+}
+
+model MessageReadBy {
+  id        String      @id @default(cuid())
+  messageId String
+  userId    String
+  readAt    DateTime    @default(now())
+  message   ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId])
+  @@index([userId])
+}
+
+model MessageAttachment {
+  id        String      @id @default(cuid())
+  messageId String
+  fileName  String
+  fileUrl   String
+  fileSize  Int?
+  mimeType  String?
+  createdAt DateTime    @default(now())
+  message   ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+}
+
+model UserTyping {
+  userId    String   @id
+  projectId String
+  isTyping  Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId])
+  @@index([projectId])
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String        @unique
+  projectId     String
+  clientId      String
+  amount        Float
+  currency      String        @default("USD")
+  description   String?
+  status        InvoiceStatus @default(DRAFT)
+  dueDate       DateTime
+  issuedAt      DateTime      @default(now())
+  paidAt        DateTime?
+  lastReminderSent DateTime?    // Track last invoice reminder
+  reminderCount    Int          @default(0) // Count of reminders sent
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  client        User          @relation("ClientInvoices", fields: [clientId], references: [id], onDelete: Cascade)
+  project       Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  payments      Payment[]
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  invoiceId       String
+  amount          Float
+  currency        String        @default("USD")
+  status          PaymentStatus @default(PENDING)
+  paymentMethod   String?
+  transactionId   String?       @unique
+  midtransOrderId String?       @unique
+  paidAt          DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  invoice         Invoice       @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+enum UserRole {
+  ADMIN
+  CLIENT
+}
+
+enum MilestoneStatus {
+  COMPLETED
+  IN_PROGRESS
+  PENDING
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  REVIEW
+  COMPLETED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model EmailLog {
+  id          String    @id @default(cuid())
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  projectId   String?    // Optional link to project
+  recipient   String
+  type        EmailType
+  status      EmailStatus @default(PENDING)
+  sentAt      DateTime?
+  failedAt    DateTime?
+  error       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum EmailType {
+  WELCOME
+  INVOICE_REMINDER
+  INVOICE_OVERDUE
+  PROJECT_UPDATE
+  CHAT_NOTIFICATION
+  PASSWORD_RESET
+  MARKETING
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+  BOUNCED
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  features    String[] // Array of features
+  icon        String   // Icon name for display
+  category    String   @default("Web") // Web, Mobile, Desktop, etc.
+  price       Float    @default(0) // Price in IDR
+  isVisible   Boolean  @default(true) // Whether to show on public page
+  order       Int      @default(0) // Display order
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([isVisible])
+  @@index([order])
+}
+
+model ActivityLog {
+  id          String       @id @default(cuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId   String?
+  project     Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type        ActivityType
+  title       String       // Brief title of the activity
+  description String?      // Optional detailed description
+  metadata    Json?        // Additional data like old/new values, IDs, etc.
+  createdAt   DateTime     @default(now())
+
+  @@index([userId, createdAt])
+  @@index([projectId])
+  @@index([type])
+}
+
+enum ActivityType {
+  PROJECT_CREATED
+  PROJECT_UPDATED
+  PROJECT_STATUS_CHANGED
+  PROJECT_PROGRESS_UPDATED
+  PROJECT_COMPLETED
+  MILESTONE_COMPLETED
+  MILESTONE_UPDATED
+  MESSAGE_SENT
+  MESSAGE_RECEIVED
+  PAYMENT_RECEIVED
+  PAYMENT_SENT
+  INVOICE_CREATED
+  INVOICE_PAID
+  USER_REGISTERED
+  USER_LOGIN
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      NotificationType @default(INFO)
+  isRead    Boolean          @default(false)
+  entityId  String?          // ID of related entity (project, message, etc.)
+  entityType String?         // Type of related entity
+  actionUrl String?          // URL to navigate when clicked
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+  PROJECT_UPDATE
+  MESSAGE
+  PAYMENT
+  SYSTEM
+}

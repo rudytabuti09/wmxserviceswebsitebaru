@@ -1,0 +1,13 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/invoice-reminders",
+      "schedule": "0 9 * * *"
+    }
+  ],
+  "functions": {
+    "app/api/cron/invoice-reminders/route.ts": {
+      "maxDuration": 300
+    }
+  }
+}

@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WMX Services - Digital Agency Website
 
-## Getting Started
+A modern, full-stack web application built with Next.js for a digital agency offering web development, mobile apps, and desktop application services.
 
-First, run the development server:
+## 🚀 Features
+
+- **Public Website**: Modern homepage, portfolio showcase, services, and contact form
+- **Client Portal**: Project dashboard with progress tracking and chat functionality
+- **Admin Panel**: Complete project and portfolio management system
+- **Authentication**: Secure login with NextAuth.js and GitHub OAuth
+- **Real-time Features**: Chat system for client-admin communication
+- **Payment Integration**: Midtrans payment gateway integration
+- **Responsive Design**: Mobile-first, modern-retro design theme
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 14 with App Router
+- **Authentication**: NextAuth.js with GitHub provider
+- **Database**: PostgreSQL with Prisma ORM
+- **API**: tRPC for type-safe APIs
+- **Styling**: Tailwind CSS with custom theme
+- **UI Components**: Custom components with modern-retro design
+- **Fonts**: Inter (body) and Playfair Display (headings)
+
+## 📋 Prerequisites
+
+- Node.js 18+ and npm
+- PostgreSQL database
+- GitHub account for OAuth
+
+## 🚀 Getting Started
+
+### 1. Environment Setup
+
+Copy the environment template and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+Required environment variables:
+- `DATABASE_URL`: Your PostgreSQL connection string
+- `NEXTAUTH_SECRET`: Random string for NextAuth.js
+- `GITHUB_CLIENT_ID` & `GITHUB_CLIENT_SECRET`: From GitHub OAuth App
+
+### 2. GitHub OAuth Setup
+
+1. Go to [GitHub Developer Settings](https://github.com/settings/applications/new)
+2. Create a new OAuth App with:
+   - Application name: "WMX Services"
+   - Homepage URL: `http://localhost:3000`
+   - Authorization callback URL: `http://localhost:3000/api/auth/callback/github`
+3. Copy the Client ID and Client Secret to your `.env` file
+
+### 3. Database Setup
+
+Run Prisma migrations to set up your database:
+
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
+
+### 4. Run the Application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎨 Design System
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Colors**: 
+  - Primary: Orange (#E57C23)
+  - Background: Off-white (#F8F5F2)
+  - Text: Dark gray (#333333)
+- **Typography**: Inter (body) + Playfair Display (headings)
+- **Theme**: Modern-retro professional
 
-## Learn More
+## 📱 Features Overview
 
-To learn more about Next.js, take a look at the following resources:
+### Public Pages
+- **Homepage**: Hero section, services overview, featured portfolio
+- **Portfolio**: Filterable project showcase
+- **Services**: Detailed service descriptions and pricing
+- **Contact**: Contact form and business information
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Client Portal
+- **Dashboard**: Project overview with progress tracking
+- **Project Details**: Milestone tracking and progress updates
+- **Payment**: Invoice history and payment processing
+- **Chat**: Direct communication with the team
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Admin Panel
+- **Dashboard**: Overview of all projects and clients
+- **Project Management**: CRUD operations for projects
+- **Portfolio Management**: Add/edit portfolio items
+- **Client Communication**: Chat management interface
 
-## Deploy on Vercel
+## 🔐 User Roles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **CLIENT**: Access to project dashboard, progress tracking, and chat
+- **ADMIN**: Full access to project management, portfolio, and client communication
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔧 Development
+
+### Database Operations
+
+```bash
+# Reset database
+npx prisma migrate reset
+
+# View database
+npx prisma studio
+
+# Generate client after schema changes
+npx prisma generate
+```
+
+### Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+```
+
+## 🤝 Support
+
+For support or questions, contact the development team.
