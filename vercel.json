@@ -29,10 +29,6 @@
       "maxDuration": 60
     }
   },
-  "env": {
-    "NEXTAUTH_URL": "@nextauth_url",
-    "DATABASE_URL": "@database_url"
-  },
   "headers": [
     {
       "source": "/(.*)",
