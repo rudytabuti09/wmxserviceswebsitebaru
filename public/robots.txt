@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+
+# Optimize for search engines
+Allow: /services
+Allow: /portfolio
+Allow: /contact
+Allow: /about
+
+# Block admin and API routes from indexing
+Disallow: /admin
+Disallow: /api/
+Disallow: /auth/
+Disallow: /client/
+
+# Block development and temporary files
+Disallow: /_next/
+Disallow: /temp/
+Disallow: /private/
+
+# Allow images and assets
+Allow: /images/
+Allow: /icons/
+Allow: /*.css$
+Allow: /*.js$
+
+# Sitemap location
+Sitemap: https://wmx-services.vercel.app/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
