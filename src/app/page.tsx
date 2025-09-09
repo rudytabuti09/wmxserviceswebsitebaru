@@ -7,6 +7,8 @@ import { trpc } from "@/lib/trpc";
 import { RetroButton } from "@/components/ui/retro-button";
 import { RetroCard } from "@/components/ui/retro-card";
 import { RetroSkeletonCard, RetroSkeletonGrid } from "@/components/ui/retro-skeleton";
+import { SplitText, TypeWriter, GradientText } from "@/components/ui/split-text";
+import { RetroLoadingEnhanced } from "@/components/ui/retro-loading-enhanced";
 import { Globe, Smartphone, Monitor, ArrowRight, Star, Users, Zap, Rocket, TrendingUp, Award, Clock, CheckCircle, Sparkles, Code2, Palette } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -104,7 +106,7 @@ export default function Home() {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-12 lg:py-20 relative overflow-hidden">
+      <section className="py-8 sm:py-12 lg:py-20 relative overflow-hidden">
         {/* Background effects removed for consistency */}
         
         {/* Enhanced Animated Background Elements with Parallax */}
@@ -162,192 +164,206 @@ export default function Home() {
         
         {/* Removed Grid Background for Consistency */}
         
-        <div className="container mx-auto px-6 text-center relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
           <div className="max-w-5xl mx-auto">
             {/* Animated Badge */}
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-6 sm:mb-8">
               <div style={{
                 backgroundColor: '#111111',
                 color: '#FFC700',
-                padding: '8px 20px',
+                padding: 'clamp(6px, 2vw, 8px) clamp(12px, 4vw, 20px)',
                 border: '2px solid #FFC700',
                 boxShadow: '3px 3px 0px #FFC700',
                 fontFamily: 'Poppins, sans-serif',
-                fontSize: '12px',
+                fontSize: 'clamp(10px, 2.5vw, 12px)',
                 fontWeight: 700,
                 textTransform: 'uppercase',
-                letterSpacing: '2px',
+                letterSpacing: 'clamp(1px, 0.5vw, 2px)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '8px',
+                gap: 'clamp(4px, 1.5vw, 8px)',
                 animation: 'pulse-badge 2s ease-in-out infinite'
               }}>
-                <Sparkles size={16} />
-                Welcome to the Future of Web
-                <Sparkles size={16} />
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Welcome to the Future of Web</span>
+                <span className="sm:hidden">Future of Web</span>
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
               </div>
             </div>
             
-            {/* Main Heading with Glitch Effect */}
-            <div style={{ position: 'relative', marginBottom: '24px' }}>
+            {/* Main Heading with Enhanced Animations */}
+            <div style={{ position: 'relative', marginBottom: 'clamp(16px, 4vw, 24px)' }}>
               <h1 style={{
                 fontFamily: 'Poppins, sans-serif',
-                fontSize: 'clamp(48px, 8vw, 80px)',
+                fontSize: 'clamp(32px, 8vw, 80px)',
                 fontWeight: 800,
                 textTransform: 'uppercase',
-                color: '#FFC700',
-                lineHeight: '1.1',
-                textShadow: '4px 4px 0px #111111',
+                lineHeight: 'clamp(1.0, 0.2vw, 1.1)',
+                textShadow: 'clamp(2px, 0.8vw, 4px) clamp(2px, 0.8vw, 4px) 0px #111111',
                 position: 'relative'
               }}>
-                <span style={{ display: 'inline-block', animation: 'text-glow 3s ease-in-out infinite' }}>
-                  Digital
-                </span>
+                <SplitText 
+                  text="DIGITAL" 
+                  variant="neon"
+                  className="inline-block"
+                  style={{ color: '#FFC700' }}
+                  delay={300}
+                  stagger={100}
+                />
                 {' '}
-                <span style={{ 
-                  display: 'inline-block',
-                  color: '#00FFFF',
-                  textShadow: '4px 4px 0px #111111, 0 0 20px rgba(0, 255, 255, 0.5)',
-                  animation: 'text-glow 3s ease-in-out infinite reverse'
+                <span style={{
+                  position: 'relative',
+                  display: 'inline-block'
                 }}>
-                  Solutions
+                  <SplitText 
+                    text="SOLUTIONS" 
+                    variant="glitch"
+                    className="inline-block"
+                    style={{ 
+                      color: '#00FFFF', 
+                      textShadow: '4px 4px 0px #111111, 0 0 20px rgba(0, 255, 255, 0.5)',
+                      position: 'relative',
+                      zIndex: 3
+                    }}
+                    delay={800}
+                    stagger={80}
+                  />
+                  {/* Messy colored text layers behind */}
+                  <span style={{
+                    position: 'absolute',
+                    top: '2px',
+                    left: '-3px',
+                    color: '#FF3EA5',
+                    textShadow: '2px 2px 0px #111111',
+                    fontFamily: 'Poppins, sans-serif',
+                    fontSize: 'clamp(32px, 8vw, 80px)',
+                    fontWeight: 800,
+                    textTransform: 'uppercase',
+                    opacity: 0.7,
+                    zIndex: 1,
+                    animation: 'glitch-layer-1 3s ease-in-out infinite'
+                  }}>
+                    SOLUTIONS
+                  </span>
+                  <span style={{
+                    position: 'absolute',
+                    top: '-2px',
+                    left: '3px',
+                    color: '#FFC700',
+                    textShadow: '2px 2px 0px #111111',
+                    fontFamily: 'Poppins, sans-serif',
+                    fontSize: 'clamp(32px, 8vw, 80px)',
+                    fontWeight: 800,
+                    textTransform: 'uppercase',
+                    opacity: 0.6,
+                    zIndex: 2,
+                    animation: 'glitch-layer-2 2.5s ease-in-out infinite reverse'
+                  }}>
+                    SOLUTIONS
+                  </span>
                 </span>
               </h1>
               
-              {/* Rotating Text */}
+              {/* TypeWriter Text */}
               <div style={{
-                fontSize: 'clamp(36px, 6vw, 56px)',
+                fontSize: 'clamp(24px, 6vw, 56px)',
                 fontWeight: 800,
                 textTransform: 'uppercase',
                 color: '#FF3EA5',
                 fontFamily: 'Poppins, sans-serif',
-                marginTop: '16px',
-                height: '70px',
+                marginTop: 'clamp(12px, 3vw, 16px)',
+                height: 'clamp(50px, 12vw, 70px)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                textShadow: '3px 3px 0px #111111',
-                transition: 'opacity 0.3s ease',
-                opacity: isVisible ? 1 : 0
+                textShadow: 'clamp(2px, 0.6vw, 3px) clamp(2px, 0.6vw, 3px) 0px #111111'
               }}>
-                {rotatingTexts[currentTextIndex]}
+                <TypeWriter 
+                  texts={rotatingTexts}
+                  speed={100}
+                  deleteSpeed={50}
+                  pauseDuration={2000}
+                  infinite={true}
+                />
               </div>
             </div>
             
             {/* Description with Icon */}
-            <div className="flex justify-center mb-12">
+            <div className="flex justify-center mb-8 sm:mb-12 px-2">
               <div style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
                 border: '2px solid #FFC700',
-                padding: '20px 32px',
-                maxWidth: '800px'
+                padding: 'clamp(16px, 4vw, 20px) clamp(20px, 6vw, 32px)',
+                maxWidth: '800px',
+                width: '100%'
               }}>
                 <p style={{
-                  fontSize: '18px',
+                  fontSize: 'clamp(14px, 3.5vw, 18px)',
                   color: '#FFFFFF',
                   lineHeight: '1.8',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '12px',
+                  gap: 'clamp(8px, 2vw, 12px)',
                   flexWrap: 'wrap',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  textAlign: 'center'
                 }}>
-                  <Code2 size={24} color="#FFC700" />
-                  We craft exceptional digital experiences through innovative
+                  <Code2 className="w-5 h-5 sm:w-6 sm:h-6" color="#FFC700" />
+                  <span className="hidden sm:inline">We craft exceptional digital experiences through innovative</span>
+                  <span className="sm:hidden">Exceptional digital experiences with</span>
                   <span style={{ color: '#FFC700', fontWeight: 700 }}>web development</span>,
                   <span style={{ color: '#FF3EA5', fontWeight: 700 }}>mobile apps</span>,
-                  and <span style={{ color: '#00FFFF', fontWeight: 700 }}>desktop solutions</span>
-                  <Palette size={24} color="#FF3EA5" />
+                  <span className="hidden sm:inline">and</span>
+                  <span style={{ color: '#00FFFF', fontWeight: 700 }}>desktop solutions</span>
+                  <Palette className="w-5 h-5 sm:w-6 sm:h-6" color="#FF3EA5" />
                 </p>
               </div>
             </div>
             
             {/* CTA Buttons with Icons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link href="/portfolio">
-                <button style={{
-                  backgroundColor: '#FFC700',
-                  color: '#111111',
-                  border: '3px solid #111111',
-                  padding: '18px 36px',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontSize: '18px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  boxShadow: '5px 5px 0px #111111',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translate(-3px, -3px) scale(1.05)';
-                  e.currentTarget.style.boxShadow = '8px 8px 0px #111111';
-                  e.currentTarget.style.backgroundColor = '#FFD700';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translate(0, 0) scale(1)';
-                  e.currentTarget.style.boxShadow = '5px 5px 0px #111111';
-                  e.currentTarget.style.backgroundColor = '#FFC700';
-                }}>
-                  <Rocket size={20} />
-                  View Our Work
-                  <ArrowRight size={20} style={{ animation: 'arrow-bounce 1s ease-in-out infinite' }} />
-                </button>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
+              <Link href="/portfolio" className="w-full sm:w-auto">
+                <RetroButton 
+                  variant="primary" 
+                  size="lg"
+                  glitch={true}
+                  fullWidth={true}
+                  className="sm:w-auto"
+                >
+                  <Rocket className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span className="hidden sm:inline whitespace-nowrap">View Our Work</span>
+                  <span className="sm:hidden whitespace-nowrap">Our Work</span>
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" style={{ animation: 'arrow-bounce 1s ease-in-out infinite' }} />
+                </RetroButton>
               </Link>
-              <Link href="/contact">
-                <button style={{
-                  backgroundColor: '#FFFFFF',
-                  color: '#111111',
-                  border: '3px solid #111111',
-                  padding: '18px 36px',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontSize: '18px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  boxShadow: '5px 5px 0px #111111',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '12px'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translate(-3px, -3px) scale(1.05)';
-                  e.currentTarget.style.boxShadow = '8px 8px 0px #111111';
-                  e.currentTarget.style.backgroundColor = '#FF3EA5';
-                  e.currentTarget.style.color = '#FFFFFF';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translate(0, 0) scale(1)';
-                  e.currentTarget.style.boxShadow = '5px 5px 0px #111111';
-                  e.currentTarget.style.backgroundColor = '#FFFFFF';
-                  e.currentTarget.style.color = '#111111';
-                }}>
-                  <Zap size={20} />
-                  Get Started
-                </button>
+              <Link href="/contact" className="w-full sm:w-auto">
+                <RetroButton 
+                  variant="outline" 
+                  size="lg"
+                  fullWidth={true}
+                  className="sm:w-auto"
+                >
+                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span className="whitespace-nowrap">Get Started</span>
+                </RetroButton>
               </Link>
             </div>
             
             {/* Technology Icons Showcase */}
-            <div className="mt-20 mb-12">
+            <div className="mt-12 sm:mt-20 mb-8 sm:mb-12">
               <div style={{
                 textAlign: 'center',
-                marginBottom: '32px'
+                marginBottom: 'clamp(24px, 6vw, 32px)'
               }}>
                 <div style={{
                   fontFamily: 'Poppins, sans-serif',
-                  fontSize: '14px',
+                  fontSize: 'clamp(12px, 2.5vw, 14px)',
                   fontWeight: 600,
                   color: '#FFFFFF',
                   textTransform: 'uppercase',
-                  letterSpacing: '2px',
-                  marginBottom: '16px',
+                  letterSpacing: 'clamp(1px, 0.4vw, 2px)',
+                  marginBottom: 'clamp(12px, 3vw, 16px)',
                   opacity: 0.7
                 }}>
                   Powered by Modern Technologies
@@ -357,11 +373,12 @@ export default function Home() {
                 <div style={{
                   display: 'flex',
                   justifyContent: 'center',
-                  gap: '32px',
+                  gap: 'clamp(16px, 4vw, 32px)',
                   flexWrap: 'wrap',
                   maxWidth: '600px',
                   margin: '0 auto',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  padding: '0 16px'
                 }}>
                   {[
                     { name: 'React', icon: '⚛️' },
@@ -391,14 +408,14 @@ export default function Home() {
                       }}
                     >
                       <div style={{
-                        width: '48px',
-                        height: '48px',
+                        width: 'clamp(36px, 8vw, 48px)',
+                        height: 'clamp(36px, 8vw, 48px)',
                         backgroundColor: 'rgba(255, 255, 255, 0.1)',
                         border: '2px solid rgba(255, 199, 0, 0.3)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '20px',
+                        fontSize: 'clamp(16px, 4vw, 20px)',
                         fontWeight: 700,
                         color: '#FFC700',
                         backdropFilter: 'blur(10px)',
@@ -407,7 +424,7 @@ export default function Home() {
                         {tech.icon}
                       </div>
                       <span style={{
-                        fontSize: '12px',
+                        fontSize: 'clamp(10px, 2.5vw, 12px)',
                         color: '#FFFFFF',
                         fontWeight: 500,
                         textAlign: 'center'
@@ -421,10 +438,10 @@ export default function Home() {
             </div>
             
             {/* Animated Stats Bar */}
-            <div className="mt-16 flex justify-center">
+            <div className="mt-12 sm:mt-16 flex justify-center px-4">
               <div style={{
                 display: 'flex',
-                gap: '32px',
+                gap: 'clamp(16px, 6vw, 32px)',
                 flexWrap: 'wrap',
                 justifyContent: 'center'
               }}>
@@ -439,7 +456,7 @@ export default function Home() {
                   }}>
                     <div style={{
                       fontFamily: 'Poppins, sans-serif',
-                      fontSize: '32px',
+                      fontSize: 'clamp(24px, 6vw, 32px)',
                       fontWeight: 800,
                       color: '#FFC700',
                       textShadow: '2px 2px 0px #111111',
@@ -448,10 +465,10 @@ export default function Home() {
                       {stat.number}
                     </div>
                     <div style={{
-                      fontSize: '12px',
+                      fontSize: 'clamp(10px, 2.5vw, 12px)',
                       color: '#FFFFFF',
                       textTransform: 'uppercase',
-                      letterSpacing: '1px',
+                      letterSpacing: 'clamp(0.5px, 0.2vw, 1px)',
                       fontWeight: 600
                     }}>
                       {stat.label}
@@ -626,6 +643,93 @@ export default function Home() {
             }
           }
           
+          /* Glitch Layer Animations for messy SOLUTIONS text */
+          @keyframes glitch-layer-1 {
+            0%, 100% {
+              transform: translate(0, 0) skew(0deg);
+              opacity: 0.7;
+            }
+            10% {
+              transform: translate(-2px, 1px) skew(-1deg);
+              opacity: 0.9;
+            }
+            20% {
+              transform: translate(1px, -1px) skew(1deg);
+              opacity: 0.5;
+            }
+            30% {
+              transform: translate(-1px, 2px) skew(-0.5deg);
+              opacity: 0.8;
+            }
+            40% {
+              transform: translate(2px, -2px) skew(1.5deg);
+              opacity: 0.6;
+            }
+            50% {
+              transform: translate(-3px, 1px) skew(-1deg);
+              opacity: 0.9;
+            }
+            60% {
+              transform: translate(1px, -3px) skew(0.5deg);
+              opacity: 0.4;
+            }
+            70% {
+              transform: translate(-1px, 1px) skew(-2deg);
+              opacity: 0.8;
+            }
+            80% {
+              transform: translate(3px, -1px) skew(1deg);
+              opacity: 0.7;
+            }
+            90% {
+              transform: translate(-2px, 2px) skew(-0.5deg);
+              opacity: 0.6;
+            }
+          }
+          
+          @keyframes glitch-layer-2 {
+            0%, 100% {
+              transform: translate(0, 0) rotate(0deg);
+              opacity: 0.6;
+            }
+            15% {
+              transform: translate(3px, -1px) rotate(0.5deg);
+              opacity: 0.8;
+            }
+            25% {
+              transform: translate(-2px, 2px) rotate(-1deg);
+              opacity: 0.4;
+            }
+            35% {
+              transform: translate(2px, 1px) rotate(1.5deg);
+              opacity: 0.9;
+            }
+            45% {
+              transform: translate(-3px, -2px) rotate(-0.5deg);
+              opacity: 0.5;
+            }
+            55% {
+              transform: translate(1px, 3px) rotate(2deg);
+              opacity: 0.7;
+            }
+            65% {
+              transform: translate(-1px, -1px) rotate(-1.5deg);
+              opacity: 0.8;
+            }
+            75% {
+              transform: translate(4px, 1px) rotate(0.5deg);
+              opacity: 0.3;
+            }
+            85% {
+              transform: translate(-2px, -3px) rotate(-2deg);
+              opacity: 0.9;
+            }
+            95% {
+              transform: translate(1px, 2px) rotate(1deg);
+              opacity: 0.5;
+            }
+          }
+          
           /* Responsive Animations */
           @media (max-width: 768px) {
             @keyframes thumbnail-float {
@@ -636,62 +740,109 @@ export default function Home() {
                 transform: translateY(-5px) rotate(0deg);
               }
             }
+            
+            /* Reduce glitch intensity on mobile */
+            @keyframes glitch-layer-1 {
+              0%, 100% {
+                transform: translate(0, 0) skew(0deg);
+                opacity: 0.6;
+              }
+              25% {
+                transform: translate(-1px, 1px) skew(-0.5deg);
+                opacity: 0.8;
+              }
+              50% {
+                transform: translate(1px, -1px) skew(0.5deg);
+                opacity: 0.4;
+              }
+              75% {
+                transform: translate(-1px, -1px) skew(-0.5deg);
+                opacity: 0.7;
+              }
+            }
+            
+            @keyframes glitch-layer-2 {
+              0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.5;
+              }
+              30% {
+                transform: translate(1px, -1px) rotate(0.5deg);
+                opacity: 0.7;
+              }
+              60% {
+                transform: translate(-1px, 1px) rotate(-0.5deg);
+                opacity: 0.6;
+              }
+            }
           }
         `}</style>
       </section>
 
       {/* Services Section */}
-      <section className="py-20 lg:py-28">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
+      <section className="py-16 sm:py-20 lg:py-28">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
             <h2 style={{
               fontFamily: 'Poppins, sans-serif',
-              fontSize: '48px',
+              fontSize: 'clamp(32px, 7vw, 48px)',
               fontWeight: 800,
               textTransform: 'uppercase',
               color: '#FFC700',
-              marginBottom: '16px',
-              textShadow: '2px 2px 0px #111111'
+              marginBottom: 'clamp(12px, 3vw, 16px)',
+              textShadow: 'clamp(2px, 0.5vw, 2px) clamp(2px, 0.5vw, 2px) 0px #111111'
             }}>
-              Our Services
+              <GradientText text="Our Services" animate={true} />
             </h2>
             <p style={{
-              fontSize: '18px',
+              fontSize: 'clamp(14px, 3.5vw, 18px)',
               color: '#FFFFFF',
               maxWidth: '600px',
-              margin: '0 auto'
+              margin: '0 auto',
+              padding: '0 16px'
             }}>
               We specialize in creating digital solutions that help your business thrive
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10 lg:gap-12">
             {services.map((service, index) => {
               const Icon = service.icon;
               return (
-                <RetroCard key={index} padding="lg" className="text-center h-full">
+                <RetroCard 
+                  key={index} 
+                  padding="lg" 
+                  className="text-center h-full"
+                  animateOnScroll={true}
+                  glitchOnHover={index === 1} // Add glitch to middle card
+                >
                   <div className="flex justify-center mb-6">
                     <div style={{
                       backgroundColor: '#FF3EA5',
-                      padding: '16px',
+                      padding: 'clamp(12px, 3vw, 16px)',
                       border: '2px solid #111111',
                       boxShadow: '3px 3px 0px #111111'
                     }}>
-                      <Icon size={48} strokeWidth={2} color="#111111" />
+                      <Icon className="w-9 h-9 sm:w-12 sm:h-12" strokeWidth={2} color="#111111" />
                     </div>
                   </div>
                   <h3 style={{ 
                     fontFamily: 'Poppins, sans-serif',
-                    fontSize: '24px',
+                    fontSize: 'clamp(18px, 4vw, 24px)',
                     fontWeight: 700,
                     textTransform: 'uppercase',
-                    marginBottom: '16px',
+                    marginBottom: 'clamp(12px, 3vw, 16px)',
                     color: '#111111'
                   }}>
-                    {service.title}
+                    <SplitText 
+                      text={service.title}
+                      variant="slide"
+                      delay={index * 200 + 500}
+                      stagger={50}
+                    />
                   </h3>
                   <p style={{
-                    fontSize: '16px',
+                    fontSize: 'clamp(14px, 3vw, 16px)',
                     lineHeight: 1.6,
                     color: '#111111'
                   }}>
@@ -705,32 +856,33 @@ export default function Home() {
       </section>
 
       {/* Featured Portfolio Section */}
-      <section className="py-20 lg:py-28">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
+      <section className="py-16 sm:py-20 lg:py-28">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
             <h2 style={{
               fontFamily: 'Poppins, sans-serif',
-              fontSize: '48px',
+              fontSize: 'clamp(32px, 7vw, 48px)',
               fontWeight: 800,
               textTransform: 'uppercase',
               color: '#FFC700',
-              marginBottom: '16px',
-              textShadow: '2px 2px 0px #111111'
+              marginBottom: 'clamp(12px, 3vw, 16px)',
+              textShadow: 'clamp(2px, 0.5vw, 2px) clamp(2px, 0.5vw, 2px) 0px #111111'
             }}>
               Featured Work
             </h2>
             <p style={{
-              fontSize: '18px',
+              fontSize: 'clamp(14px, 3.5vw, 18px)',
               color: '#FFFFFF',
               maxWidth: '600px',
-              margin: '0 auto'
+              margin: '0 auto',
+              padding: '0 16px'
             }}>
               Showcasing some of our best projects and client success stories
             </p>
           </div>
           
           {featuredProjects && featuredProjects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10 lg:gap-12">
               {featuredProjects.map((project) => (
                 <RetroCard key={project.id} padding="none" className="overflow-hidden">
                   <div className="relative" style={{ borderBottom: '2px solid #111111' }}>
@@ -833,9 +985,9 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20" style={{ backgroundColor: '#FFC700' }}>
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="py-16 sm:py-20" style={{ backgroundColor: '#FFC700' }}>
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             {[
               { number: '100+', label: 'Projects Completed', icon: CheckCircle },
               { number: '50+', label: 'Happy Clients', icon: Users },
@@ -846,16 +998,16 @@ export default function Home() {
                 <div className="flex justify-center mb-4">
                   <div style={{
                     backgroundColor: '#FFFFFF',
-                    padding: '12px',
+                    padding: 'clamp(10px, 2.5vw, 12px)',
                     border: '3px solid #111111',
                     boxShadow: '3px 3px 0px #111111'
                   }}>
-                    <stat.icon size={32} strokeWidth={2} color="#111111" />
+                    <stat.icon className="w-6 h-6 sm:w-8 sm:h-8" strokeWidth={2} color="#111111" />
                   </div>
                 </div>
                 <h3 style={{
                   fontFamily: 'Poppins, sans-serif',
-                  fontSize: '36px',
+                  fontSize: 'clamp(24px, 6vw, 36px)',
                   fontWeight: 800,
                   color: '#111111',
                   marginBottom: '8px'
@@ -863,10 +1015,11 @@ export default function Home() {
                   {stat.number}
                 </h3>
                 <p style={{
-                  fontSize: '14px',
+                  fontSize: 'clamp(11px, 2.5vw, 14px)',
                   fontWeight: 600,
                   color: '#111111',
-                  textTransform: 'uppercase'
+                  textTransform: 'uppercase',
+                  lineHeight: 1.4
                 }}>
                   {stat.label}
                 </p>
@@ -877,31 +1030,32 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-20 lg:py-28">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
+      <section className="py-16 sm:py-20 lg:py-28">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
             <h2 style={{
               fontFamily: 'Poppins, sans-serif',
-              fontSize: '48px',
+              fontSize: 'clamp(32px, 7vw, 48px)',
               fontWeight: 800,
               textTransform: 'uppercase',
               color: '#FFC700',
-              marginBottom: '16px',
-              textShadow: '2px 2px 0px #111111'
+              marginBottom: 'clamp(12px, 3vw, 16px)',
+              textShadow: 'clamp(2px, 0.5vw, 2px) clamp(2px, 0.5vw, 2px) 0px #111111'
             }}>
               Why Choose Us
             </h2>
             <p style={{
-              fontSize: '18px',
+              fontSize: 'clamp(14px, 3.5vw, 18px)',
               color: '#FFFFFF',
               maxWidth: '600px',
-              margin: '0 auto'
+              margin: '0 auto',
+              padding: '0 16px'
             }}>
               We deliver excellence through innovation and dedication
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 title: 'Expert Team',
@@ -938,7 +1092,7 @@ export default function Home() {
                 <div className="flex justify-center mb-6">
                   <div style={{
                     backgroundColor: '#FF3EA5',
-                    padding: '16px',
+                    padding: 'clamp(12px, 3vw, 16px)',
                     border: '2px solid #111111',
                     boxShadow: '3px 3px 0px #111111',
                     transform: 'rotate(-3deg)',
@@ -950,21 +1104,21 @@ export default function Home() {
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'rotate(-3deg) scale(1)';
                   }}>
-                    <feature.icon size={32} strokeWidth={2} color="#FFFFFF" />
+                    <feature.icon className="w-7 h-7 sm:w-8 sm:h-8" strokeWidth={2} color="#FFFFFF" />
                   </div>
                 </div>
                 <h3 style={{
                   fontFamily: 'Poppins, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(16px, 4vw, 20px)',
                   fontWeight: 700,
                   color: '#FFC700',
-                  marginBottom: '12px',
+                  marginBottom: 'clamp(8px, 2vw, 12px)',
                   textTransform: 'uppercase'
                 }}>
                   {feature.title}
                 </h3>
                 <p style={{
-                  fontSize: '14px',
+                  fontSize: 'clamp(12px, 3vw, 14px)',
                   color: '#FFFFFF',
                   lineHeight: 1.6,
                   opacity: 0.9
@@ -978,24 +1132,25 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20">
-        <div className="text-center mb-16">
+      <section className="py-16 sm:py-20">
+        <div className="text-center mb-12 sm:mb-16 px-4">
           <h2 style={{
             fontFamily: 'Poppins, sans-serif',
-            fontSize: '48px',
+            fontSize: 'clamp(32px, 7vw, 48px)',
             fontWeight: 800,
             textTransform: 'uppercase',
             color: '#FFC700',
-            marginBottom: '16px',
-            textShadow: '2px 2px 0px #111111'
+            marginBottom: 'clamp(12px, 3vw, 16px)',
+            textShadow: 'clamp(2px, 0.5vw, 2px) clamp(2px, 0.5vw, 2px) 0px #111111'
           }}>
             Client Reviews
           </h2>
           <p style={{
-            fontSize: '18px',
+            fontSize: 'clamp(14px, 3.5vw, 18px)',
             color: '#FFFFFF',
             maxWidth: '600px',
-            margin: '0 auto'
+            margin: '0 auto',
+            padding: '0 16px'
           }}>
             What our clients say about working with us
           </p>
@@ -1076,14 +1231,14 @@ export default function Home() {
               }
             ].map((testimonial, index) => (
               <div key={`first-${index}`} style={{ 
-                minWidth: '350px',
+                minWidth: 'clamp(300px, 80vw, 350px)',
                 flexShrink: 0
               }}>
                 <div style={{
                   backgroundColor: '#FFFFFF',
                   border: '3px solid #111111',
                   boxShadow: '5px 5px 0px #111111',
-                  padding: '24px',
+                  padding: 'clamp(16px, 4vw, 24px)',
                   height: '100%',
                   position: 'relative',
                   overflow: 'hidden'
@@ -1179,14 +1334,14 @@ export default function Home() {
               }
             ].map((testimonial, index) => (
               <div key={`second-${index}`} style={{ 
-                minWidth: '350px',
+                minWidth: 'clamp(300px, 80vw, 350px)',
                 flexShrink: 0
               }}>
                 <div style={{
                   backgroundColor: '#FFFFFF',
                   border: '3px solid #111111',
                   boxShadow: '5px 5px 0px #111111',
-                  padding: '24px',
+                  padding: 'clamp(16px, 4vw, 24px)',
                   height: '100%',
                   position: 'relative',
                   overflow: 'hidden'
@@ -1258,86 +1413,59 @@ export default function Home() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 lg:py-28">
-        <div className="container mx-auto px-6 text-center">
+      <section className="py-16 sm:py-20 lg:py-28">
+        <div className="container mx-auto px-4 sm:px-6 text-center">
           <div style={{
             backgroundColor: '#FF3EA5',
-            padding: '60px 40px',
+            padding: 'clamp(40px, 8vw, 60px) clamp(20px, 6vw, 40px)',
             border: '4px solid #111111',
-            boxShadow: '8px 8px 0px #111111',
+            boxShadow: 'clamp(6px, 1.5vw, 8px) clamp(6px, 1.5vw, 8px) 0px #111111',
             maxWidth: '800px',
             margin: '0 auto'
           }}>
             <h2 style={{
               fontFamily: 'Poppins, sans-serif',
-              fontSize: '48px',
+              fontSize: 'clamp(32px, 7vw, 48px)',
               fontWeight: 800,
               textTransform: 'uppercase',
               color: '#FFFFFF',
-              marginBottom: '16px',
-              textShadow: '3px 3px 0px #111111'
+              marginBottom: 'clamp(12px, 3vw, 16px)',
+              textShadow: 'clamp(2px, 0.8vw, 3px) clamp(2px, 0.8vw, 3px) 0px #111111'
             }}>
               Ready to Start?
             </h2>
             <p style={{
-              fontSize: '18px',
+              fontSize: 'clamp(14px, 3.5vw, 18px)',
               color: '#FFFFFF',
-              marginBottom: '32px',
+              marginBottom: 'clamp(24px, 5vw, 32px)',
               maxWidth: '500px',
-              margin: '0 auto 32px'
+              margin: '0 auto clamp(24px, 5vw, 32px)',
+              lineHeight: 1.6
             }}>
               Let's transform your ideas into reality with our cutting-edge solutions
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link href="/contact">
-                <button style={{
-                  backgroundColor: '#FFC700',
-                  color: '#111111',
-                  border: '3px solid #111111',
-                  padding: '16px 32px',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontSize: '18px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  boxShadow: '4px 4px 0px #111111',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translate(-2px, -2px)';
-                  e.currentTarget.style.boxShadow = '6px 6px 0px #111111';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translate(0, 0)';
-                  e.currentTarget.style.boxShadow = '4px 4px 0px #111111';
-                }}>
-                  Start Your Project
-                </button>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4">
+              <Link href="/contact" className="w-full sm:w-auto">
+                <RetroButton 
+                  variant="primary" 
+                  size="lg"
+                  fullWidth={true}
+                  className="sm:w-auto"
+                >
+                  <Rocket className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span className="whitespace-nowrap">Start Your Project</span>
+                </RetroButton>
               </Link>
-              <Link href="/services">
-                <button style={{
-                  backgroundColor: '#FFFFFF',
-                  color: '#111111',
-                  border: '3px solid #111111',
-                  padding: '16px 32px',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontSize: '18px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  boxShadow: '4px 4px 0px #111111',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translate(-2px, -2px)';
-                  e.currentTarget.style.boxShadow = '6px 6px 0px #111111';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translate(0, 0)';
-                  e.currentTarget.style.boxShadow = '4px 4px 0px #111111';
-                }}>
-                  View Services
-                </button>
+              <Link href="/services" className="w-full sm:w-auto">
+                <RetroButton 
+                  variant="outline" 
+                  size="lg"
+                  fullWidth={true}
+                  className="sm:w-auto"
+                >
+                  <Monitor className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span className="whitespace-nowrap">View Services</span>
+                </RetroButton>
               </Link>
             </div>
           </div>

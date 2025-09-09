@@ -34,38 +34,36 @@ model Session {
 }
 
 model User {
-  id                   String              @id @default(cuid())
-  name                 String?
-  email                String              @unique
-  emailVerified        DateTime?
-  password             String?             // For credentials auth
-  image                String?
-  role                 UserRole            @default(CLIENT)
-  isActive             Boolean             @default(false)  // Account active status
-  createdAt            DateTime            @default(now())
-  updatedAt            DateTime            @updatedAt
-  lastActiveAt         DateTime?           // Track last activity for online status
-  // Email Preferences
-  emailNotifications   Boolean             @default(true)
-  emailInvoices        Boolean             @default(true)
-  emailProjectUpdates  Boolean             @default(true)
-  emailChatMessages    Boolean             @default(true)
-  emailMarketing       Boolean             @default(false)
-  unsubscribeToken     String?             @unique @default(cuid())
-  // Relations
-  accounts             Account[]
-  receivedMessages     ChatMessage[]       @relation("MessageReceiver")
-  sentMessages         ChatMessage[]       @relation("MessageSender")
-  invoices             Invoice[]           @relation("ClientInvoices")
-  projects             Project[]
-  sessions             Session[]
-  emailLogs            EmailLog[]
-  emailVerifications   EmailVerification[]
-  portfolioImages      PortfolioImage[]
-  activityLogs         ActivityLog[]
-  messageReadBy        MessageReadBy[]
-  userTyping           UserTyping[]
-  notifications        Notification[]
+  id                  String              @id @default(cuid())
+  name                String?
+  email               String              @unique
+  emailVerified       DateTime?
+  password            String?
+  image               String?
+  role                UserRole            @default(CLIENT)
+  isActive            Boolean             @default(false)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  lastActiveAt        DateTime?
+  emailNotifications  Boolean             @default(true)
+  emailInvoices       Boolean             @default(true)
+  emailProjectUpdates Boolean             @default(true)
+  emailChatMessages   Boolean             @default(true)
+  emailMarketing      Boolean             @default(false)
+  unsubscribeToken    String?             @unique @default(cuid())
+  accounts            Account[]
+  activityLogs        ActivityLog[]
+  receivedMessages    ChatMessage[]       @relation("MessageReceiver")
+  sentMessages        ChatMessage[]       @relation("MessageSender")
+  emailLogs           EmailLog[]
+  emailVerifications  EmailVerification[]
+  invoices            Invoice[]           @relation("ClientInvoices")
+  messageReadBy       MessageReadBy[]
+  notifications       Notification[]
+  portfolioImages     PortfolioImage[]
+  projects            Project[]
+  sessions            Session[]
+  userTyping          UserTyping?
 }
 
 model VerificationToken {
@@ -77,11 +75,11 @@ model VerificationToken {
 }
 
 model PasswordResetToken {
-  id      String   @id @default(cuid())
-  token   String   @unique
-  email   String
-  expires DateTime
-  used    Boolean  @default(false)
+  id        String   @id @default(cuid())
+  token     String   @unique
+  email     String
+  expires   DateTime
+  used      Boolean  @default(false)
   createdAt DateTime @default(now())
 
   @@index([email])
@@ -91,9 +89,9 @@ model EmailVerification {
   id        String   @id @default(cuid())
   userId    String
   email     String
-  code      String   // 6-digit verification code
+  code      String
   expires   DateTime
-  attempts  Int      @default(0) // Track failed verification attempts
+  attempts  Int      @default(0)
   verified  Boolean  @default(false)
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -103,22 +101,22 @@ model EmailVerification {
 }
 
 model Project {
-  id          String        @id @default(cuid())
-  title       String
-  description String
-  progress    Int           @default(0)
-  status      ProjectStatus @default(PLANNING)
-  clientId    String
-  deadline    DateTime?     // Project deadline
-  demoUrl     String?       // URL for project demo/preview
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  messages    ChatMessage[]
-  invoices    Invoice[]
-  milestones  Milestone[]
+  id           String        @id @default(cuid())
+  title        String
+  description  String
+  progress     Int           @default(0)
+  status       ProjectStatus @default(PLANNING)
+  clientId     String
+  deadline     DateTime?
+  demoUrl      String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   activityLogs ActivityLog[]
-  userTyping  UserTyping[]
-  client      User          @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  messages     ChatMessage[]
+  invoices     Invoice[]
+  milestones   Milestone[]
+  client       User          @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  userTyping   UserTyping[]
 }
 
 model Milestone {
@@ -127,7 +125,7 @@ model Milestone {
   status    MilestoneStatus @default(PENDING)
   projectId String
   order     Int             @default(0)
-  deadline  DateTime?       // Milestone deadline
+  deadline  DateTime?
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
   project   Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
@@ -149,12 +147,12 @@ model PortfolioImage {
   id         String   @id @default(cuid())
   userId     String
   url        String
-  key        String   @unique // Storage key for deletion
-  name       String   // Display name
-  fileName   String   // Original file name
-  size       Int?     // File size in bytes
-  type       String?  // MIME type
-  order      Int      @default(0) // For custom ordering
+  key        String   @unique
+  name       String
+  fileName   String
+  size       Int?
+  type       String?
+  order      Int      @default(0)
   uploadedAt DateTime @default(now())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -165,20 +163,20 @@ model PortfolioImage {
 }
 
 model ChatMessage {
-  id           String          @id @default(cuid())
-  content      String
-  senderId     String
-  receiverId   String?
-  projectId    String
-  isEdited     Boolean         @default(false)
-  editedAt     DateTime?
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  project      Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  receiver     User?           @relation("MessageReceiver", fields: [receiverId], references: [id])
-  sender       User            @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
-  readBy       MessageReadBy[]
-  attachments  MessageAttachment[]
+  id          String              @id @default(cuid())
+  content     String
+  senderId    String
+  receiverId  String?
+  projectId   String
+  isEdited    Boolean             @default(false)
+  editedAt    DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  project     Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  receiver    User?               @relation("MessageReceiver", fields: [receiverId], references: [id])
+  sender      User                @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  attachments MessageAttachment[]
+  readBy      MessageReadBy[]
 
   @@index([projectId])
   @@index([senderId])
@@ -216,32 +214,32 @@ model UserTyping {
   projectId String
   isTyping  Boolean  @default(false)
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, projectId])
   @@index([projectId])
 }
 
 model Invoice {
-  id            String        @id @default(cuid())
-  invoiceNumber String        @unique
-  projectId     String
-  clientId      String
-  amount        Float
-  currency      String        @default("USD")
-  description   String?
-  status        InvoiceStatus @default(DRAFT)
-  dueDate       DateTime
-  issuedAt      DateTime      @default(now())
-  paidAt        DateTime?
-  lastReminderSent DateTime?    // Track last invoice reminder
-  reminderCount    Int          @default(0) // Count of reminders sent
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  client        User          @relation("ClientInvoices", fields: [clientId], references: [id], onDelete: Cascade)
-  project       Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  payments      Payment[]
+  id               String        @id @default(cuid())
+  invoiceNumber    String        @unique
+  projectId        String
+  clientId         String
+  amount           Float
+  currency         String        @default("USD")
+  description      String?
+  status           InvoiceStatus @default(DRAFT)
+  dueDate          DateTime
+  issuedAt         DateTime      @default(now())
+  paidAt           DateTime?
+  lastReminderSent DateTime?
+  reminderCount    Int           @default(0)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  client           User          @relation("ClientInvoices", fields: [clientId], references: [id], onDelete: Cascade)
+  project          Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  payments         Payment[]
 }
 
 model Payment {
@@ -257,6 +255,74 @@ model Payment {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   invoice         Invoice       @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+model EmailLog {
+  id        String      @id @default(cuid())
+  userId    String?
+  projectId String?
+  recipient String
+  type      EmailType
+  status    EmailStatus @default(PENDING)
+  sentAt    DateTime?
+  failedAt  DateTime?
+  error     String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  user      User?       @relation(fields: [userId], references: [id])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  features    String[]
+  icon        String
+  category    String   @default("Web")
+  price       Float    @default(0)
+  isVisible   Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([isVisible])
+  @@index([order])
+}
+
+model ActivityLog {
+  id          String       @id @default(cuid())
+  userId      String
+  projectId   String?
+  type        ActivityType
+  title       String
+  description String?
+  metadata    Json?
+  createdAt   DateTime     @default(now())
+  project     Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([projectId])
+  @@index([type])
+}
+
+model Notification {
+  id         String           @id @default(cuid())
+  userId     String
+  title      String
+  message    String
+  type       NotificationType @default(INFO)
+  isRead     Boolean          @default(false)
+  entityId   String?
+  entityType String?
+  actionUrl  String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
 }
 
 enum UserRole {
@@ -293,21 +359,6 @@ enum PaymentStatus {
   REFUNDED
 }
 
-model EmailLog {
-  id          String    @id @default(cuid())
-  userId      String?
-  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
-  projectId   String?    // Optional link to project
-  recipient   String
-  type        EmailType
-  status      EmailStatus @default(PENDING)
-  sentAt      DateTime?
-  failedAt    DateTime?
-  error       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
 enum EmailType {
   WELCOME
   INVOICE_REMINDER
@@ -323,41 +374,6 @@ enum EmailStatus {
   SENT
   FAILED
   BOUNCED
-}
-
-model Service {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  features    String[] // Array of features
-  icon        String   // Icon name for display
-  category    String   @default("Web") // Web, Mobile, Desktop, etc.
-  price       Float    @default(0) // Price in IDR
-  isVisible   Boolean  @default(true) // Whether to show on public page
-  order       Int      @default(0) // Display order
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([category])
-  @@index([isVisible])
-  @@index([order])
-}
-
-model ActivityLog {
-  id          String       @id @default(cuid())
-  userId      String
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  projectId   String?
-  project     Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  type        ActivityType
-  title       String       // Brief title of the activity
-  description String?      // Optional detailed description
-  metadata    Json?        // Additional data like old/new values, IDs, etc.
-  createdAt   DateTime     @default(now())
-
-  @@index([userId, createdAt])
-  @@index([projectId])
-  @@index([type])
 }
 
 enum ActivityType {
@@ -376,24 +392,6 @@ enum ActivityType {
   INVOICE_PAID
   USER_REGISTERED
   USER_LOGIN
-}
-
-model Notification {
-  id        String           @id @default(cuid())
-  userId    String
-  title     String
-  message   String
-  type      NotificationType @default(INFO)
-  isRead    Boolean          @default(false)
-  entityId  String?          // ID of related entity (project, message, etc.)
-  entityType String?         // Type of related entity
-  actionUrl String?          // URL to navigate when clicked
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, isRead])
-  @@index([createdAt])
 }
 
 enum NotificationType {

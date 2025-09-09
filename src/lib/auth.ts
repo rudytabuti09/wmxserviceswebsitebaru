@@ -161,31 +161,54 @@ export const authOptions: NextAuthOptions = {
       return baseUrl;
     },
     async jwt({ token, user, account, trigger }) {
+      // Define admin emails (should be moved to env vars)
+      const adminEmails = [
+        'tsagabbinary@gmail.com',
+        process.env.ADMIN_EMAIL, // Add your admin email to .env
+      ].filter(Boolean);
+
       // When user first signs in
       if (user && account) {
+        console.log('🔐 JWT Callback - User signing in:', user.email);
+        
         // When user signs in, check if they exist in database
         let dbUser = await prisma.user.findUnique({
           where: { email: user.email! },
         });
         
+        // Determine if this email should be admin
+        const shouldBeAdmin = adminEmails.includes(user.email!);
+        
         // If user doesn't exist, create them
         if (!dbUser) {
+          console.log('👤 Creating new user:', user.email, shouldBeAdmin ? 'as ADMIN' : 'as CLIENT');
+          
           dbUser = await prisma.user.create({
             data: {
               email: user.email!,
               name: user.name,
               image: user.image,
-              role: "CLIENT", // Default role
+              role: shouldBeAdmin ? "ADMIN" : "CLIENT",
             },
           });
           
           // Send welcome email for new users
-          // Import at the top of the file: import { onUserRegistered } from './email/hooks';
           const { onUserRegistered } = await import('./email/hooks');
           await onUserRegistered(dbUser.id).catch(err => 
             console.error('Failed to send welcome email:', err)
           );
+        } else {
+          // If user exists but should be admin, promote them
+          if (shouldBeAdmin && dbUser.role !== 'ADMIN') {
+            console.log('⬆️ Promoting user to admin:', user.email);
+            dbUser = await prisma.user.update({
+              where: { id: dbUser.id },
+              data: { role: 'ADMIN' },
+            });
+          }
         }
+        
+        console.log('✅ Final role for', user.email, ':', dbUser.role);
         
         token.role = dbUser.role;
         token.id = dbUser.id;
@@ -202,7 +225,18 @@ export const authOptions: NextAuthOptions = {
         });
         
         if (dbUser) {
-          token.role = dbUser.role;
+          // Check if this should be admin and auto-promote if needed
+          const shouldBeAdmin = adminEmails.includes(token.email as string);
+          if (shouldBeAdmin && dbUser.role !== 'ADMIN') {
+            console.log('🔄 Auto-promoting to admin during session refresh:', token.email);
+            await prisma.user.update({
+              where: { id: dbUser.id },
+              data: { role: 'ADMIN' },
+            });
+            token.role = 'ADMIN';
+          } else {
+            token.role = dbUser.role;
+          }
           token.id = dbUser.id;
         }
       }

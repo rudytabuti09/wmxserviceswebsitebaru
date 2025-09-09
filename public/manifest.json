@@ -1,38 +1,131 @@
 {
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "name": "WMX Services - Premium Digital Solutions",
   "short_name": "WMX Services",
-  "description": "Transform your business with cutting-edge digital solutions. Expert web development, mobile apps, and custom software development services.",
-  "start_url": "/",
+  "description": "Professional digital transformation partner specializing in enterprise web development, mobile applications, and custom software solutions. Trusted by businesses worldwide for innovative technology consulting and implementation.",
+  "version": "1.0.0",
+  "start_url": "/?utm_source=pwa&utm_medium=standalone",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
   "background_color": "#3D52F1",
   "theme_color": "#3D52F1",
-  "orientation": "portrait-primary",
+  "categories": [
+    "business",
+    "productivity",
+    "developer",
+    "professional",
+    "enterprise"
+  ],
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "shortcuts": [
+    {
+      "name": "Portfolio",
+      "short_name": "Portfolio",
+      "description": "Browse our featured projects and case studies",
+      "url": "/portfolio?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/icons/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Get in touch for a free consultation",
+      "url": "/contact?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/icons/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Client Portal",
+      "short_name": "Portal",
+      "description": "Access your client dashboard and projects",
+      "url": "/auth/signin?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/icons/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "WMX Services Desktop Experience"
+    },
+    {
+      "src": "/images/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "WMX Services Mobile Experience"
+    }
+  ],
   "icons": [
     {
       "src": "/icons/favicon-16x16.png",
       "sizes": "16x16",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/icons/favicon-32x32.png",
       "sizes": "32x32",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/icons/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any"
     },
     {
       "src": "/icons/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
-  ],
-  "categories": ["business", "productivity", "technology"],
-  "lang": "en",
-  "dir": "ltr",
-  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
+  ]
 }

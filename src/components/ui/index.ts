@@ -1,5 +1,5 @@
 // RetroUI Component Library
-// Modern-Retro Professional Design System
+// Modern-Retro Professional Design System with React Spring Animations
 
 export { RetroButton } from './retro-button';
 export { RetroCard } from './retro-card';
@@ -30,18 +30,23 @@ export {
 } from './retro-admin-layout';
 export { RetroBatchUpload } from './retro-batch-upload';
 
-// Design System Constants
+// Enhanced Text Animation Components
+export { SplitText, TypeWriter, GradientText } from './split-text';
+
+// Design System Constants - Updated for 80s Neo-Retro Theme
 export const RETRO_COLORS = {
-  primary: '#E57C23',
-  background: '#F8F5F2',
-  foreground: '#333333',
-  card: '#FFFFFF',
+  primary: '#FFC700',        // Bright yellow
+  secondary: '#FF3EA5',      // Bright pink
+  tertiary: '#00FFFF',       // Cyan accent
+  background: '#3D52F1',     // Bright blue background
+  foreground: '#111111',     // Deep black text
+  card: '#FFFFFF',           // White cards
   muted: '#f1f5f9',
 } as const;
 
 export const RETRO_FONTS = {
-  serif: 'Playfair Display',
-  sans: 'Inter',
+  heading: 'Poppins',        // Bold headings
+  body: 'Inter',             // Body text
 } as const;
 
 // Component Size Variants

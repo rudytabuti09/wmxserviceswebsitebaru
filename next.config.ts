@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
   // Output configuration for Vercel
   output: 'standalone',
   // Set output file tracing root to resolve the warning
-  outputFileTracingRoot: undefined,
+  outputFileTracingRoot: __dirname,
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['lucide-react', '@tanstack/react-query'],
