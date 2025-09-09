@@ -86,17 +86,19 @@ export const metadata: Metadata = {
   category: "technology",
   icons: {
     icon: [
-      { url: '/icons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-48x48.svg', sizes: '48x48', type: 'image/svg+xml' },
       { url: '/icons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
     ],
-    shortcut: '/icons/favicon.ico',
+    shortcut: '/favicon.svg',
     apple: [
       { url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
     other: [
       {
         rel: 'mask-icon',
-        url: '/icons/safari-pinned-tab.svg',
+        url: '/favicon.svg',
         color: '#3D52F1',
       },
     ],
@@ -114,7 +116,9 @@ export default function RootLayout({
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
         
-        {/* Favicon and Icons - Simplified for better browser compatibility */}
+        {/* Favicon and Icons - High-quality WMX logo favicons */}
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon-48x48.svg" sizes="48x48" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" href="/icon" type="image/png" sizes="32x32" />
         <link rel="apple-touch-icon" href="/apple-icon" sizes="180x180" />
